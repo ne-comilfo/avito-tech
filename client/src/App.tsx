@@ -1,5 +1,3 @@
-import './App.css';
-
 import ItemsPage from './pages/ItemsPage/ItemsPage';
 import ItemCard from './components/ItemCard/ItemCard';
 import ItemEdit from './components/ItemEdit/ItemEdit';
