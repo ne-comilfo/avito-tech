@@ -13,7 +13,7 @@
     }
 
     &__image {
-        height: 150px;
+        height: 130px;
         background: #FAFAFA;
         object-fit: cover;
     }
@@ -27,6 +27,10 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        min-height: 118px;
+        flex-grow: 1;
+        justify-content: space-between;
+
     }
 
     &__category {

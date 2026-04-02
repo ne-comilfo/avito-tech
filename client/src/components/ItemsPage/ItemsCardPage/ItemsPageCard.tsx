@@ -1,6 +1,9 @@
 import './ItemsPageCard.scss';
 
+import { useNavigate } from 'react-router-dom';
+
 type Props = {
+    id: number,
     imgPath: string;
     category: string;
     title: string;
@@ -8,9 +11,13 @@ type Props = {
     badge?: boolean;
 };
 
-function ItemsPageCard({ imgPath, category, title, price, badge }: Props) {
+function ItemsPageCard({ id, imgPath, category, title, price, badge }: Props) {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`ads/${id}`);
+    }
     return (
-        <div className="card">
+        <div className="card" onClick={() => handleClick()}>
             <div className="card__image-wrapper">
                 <img src={imgPath} className="card__image" />
                 <span className="card__category">{category}</span>

@@ -1,0 +1,34 @@
+.search {
+    position: relative;
+    width: 958px;
+    height: 32px;
+    background: #f6f6f8;
+    border-radius: 8px;
+
+    &__input {
+        padding-left: 10px;
+        width: 100%;
+        border: none;
+        background: #f6f6f8;
+        font-size: 14px;
+        height: 100%;
+        border-radius: 8px;
+
+        &::-webkit-search-cancel-button {
+            display: none;
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

@@ -1,6 +1,6 @@
 import ItemsPage from './pages/ItemsPage/ItemsPage';
-import ItemCard from './components/ItemCard/ItemCard';
-import ItemEdit from './components/ItemEdit/ItemEdit';
+import ItemCard from './pages/ItemCard/ItemCard';
+import ItemEdit from './pages/ItemEdit/ItemEdit';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
