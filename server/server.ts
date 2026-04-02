@@ -6,10 +6,17 @@ import { ItemsGetInQuerySchema, ItemUpdateInSchema } from "src/validation.ts";
 import { treeifyError, ZodError } from "zod";
 import { doesItemNeedRevision } from "./src/utils.ts";
 
+import cors from "@fastify/cors";
+
 const ITEMS = items as Item[];
 
 const fastify = Fastify({
   logger: true,
+});
+
+await fastify.register(cors, {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 });
 
 await fastify.register((await import("@fastify/middie")).default);
@@ -125,47 +132,53 @@ interface ItemUpdateRequest extends Fastify.RequestGenericInterface {
   };
 }
 
-fastify.put<ItemUpdateRequest>("/items/:id", (request, reply) => {
+fastify.patch<ItemUpdateRequest>("/items/:id", (request, reply) => {
   const itemId = Number(request.params.id);
-
-  if (!Number.isFinite(itemId)) {
-    reply
-      .status(400)
-      .send({ success: false, error: "Item ID path param should be a number" });
-    return;
-  }
-
   const itemIndex = ITEMS.findIndex((item) => item.id === itemId);
 
-  if (itemIndex === -1) {
-    reply
-      .status(404)
-      .send({ success: false, error: "Item with requested id doesn't exist" });
-    return;
-  }
+  if (itemIndex === -1) return reply.status(404).send({ success: false });
 
-  try {
-    const parsedData = ItemUpdateInSchema.parse({
-      category: ITEMS[itemIndex].category,
-      ...(request.body as {}),
-    });
+  const currentItem = ITEMS[itemIndex];
+  const updateData = request.body as any;
+  const cleanedParams = { ...updateData.params };
 
-    ITEMS[itemIndex] = {
-      id: ITEMS[itemIndex].id,
-      createdAt: ITEMS[itemIndex].createdAt,
-      updatedAt: new Date().toISOString(),
-      ...parsedData,
-    };
+  if (currentItem.category === "auto") {
+    if (cleanedParams.yearOfManufacture)
+      cleanedParams.yearOfManufacture = Number(cleanedParams.yearOfManufacture);
+    if (cleanedParams.mileage)
+      cleanedParams.mileage = Number(cleanedParams.mileage);
+    if (cleanedParams.enginePower)
+      cleanedParams.enginePower = Number(cleanedParams.enginePower);
 
-    return { success: true };
-  } catch (error) {
-    if (error instanceof ZodError) {
-      reply.status(400).send({ success: false, error: treeifyError(error) });
-      return;
+    if (cleanedParams.transmission) {
+      const t = cleanedParams.transmission.toLowerCase();
+      if (t.includes("авто") || t === "automatic")
+        cleanedParams.transmission = "automatic";
+      if (t.includes("мех") || t === "manual")
+        cleanedParams.transmission = "manual";
     }
-
-    throw error;
   }
+
+  if (currentItem.category === "real_estate") {
+    if (cleanedParams.area) cleanedParams.area = Number(cleanedParams.area);
+    if (cleanedParams.floor) cleanedParams.floor = Number(cleanedParams.floor);
+  }
+
+  ITEMS[itemIndex] = {
+    ...currentItem,
+    ...updateData,
+    price:
+      updateData.price !== undefined
+        ? Number(updateData.price)
+        : currentItem.price,
+    params: {
+      ...currentItem.params,
+      ...cleanedParams,
+    },
+    updatedAt: new Date().toISOString(),
+  };
+
+  return { success: true };
 });
 
 const port = Number(process.env.PORT) || 8080;
