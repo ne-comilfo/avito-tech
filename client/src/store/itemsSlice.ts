@@ -17,20 +17,18 @@ const initialState: ItemsState = {
     error: null,
 };
 
-// Асинхронный thunk для загрузки объявлений
 export const fetchItems = createAsyncThunk<
-    FetchItemsResponse, // Что возвращаем
-    FetchItemsParams, // Какие аргументы принимаем
-    { rejectValue: string } // Тип ошибки
+    FetchItemsResponse,
+    FetchItemsParams,
+    { rejectValue: string }
 >('items/fetchItems', async (params, { signal, rejectWithValue }) => {
     try {
         const response = await api.get<FetchItemsResponse>('/items', {
             params,
-            signal, // Передаем signal в axios для возможности отмены
+            signal,
         });
         return response.data;
     } catch (error: any) {
-        // Если запрос был отменен намеренно, не считаем это ошибкой сети
         if (error.name === 'CanceledError') {
             return rejectWithValue('Запрос был отменен');
         }
