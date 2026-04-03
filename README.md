@@ -36,7 +36,7 @@ macOS / Linux:
 Сначала склонируйте репозиторий:
 
 ``` bash
-git clone [https://github.com/ne-comilfo/avito-tech.git](https://github.com/ne-comilfo/avito-tech.git)
+git clone "https://github.com/ne-comilfo/avito-tech.git"
 ```
 
 ## Запуск сервера (Backend):
