@@ -41,6 +41,10 @@ const ItemEdit: React.FC = () => {
         params: {},
     });
 
+    const [serverSnapshot, setServerSnapshot] = useState<FormValues | null>(
+        null,
+    );
+
     const isFormValid: boolean = Boolean(
         formData.title.trim() && formData.price.toString().trim(),
     );
@@ -56,12 +60,6 @@ const ItemEdit: React.FC = () => {
     };
 
     useEffect(() => {
-        if (!isLoading && id) {
-            localStorage.setItem(`draft_edit_${id}`, JSON.stringify(formData));
-        }
-    }, [formData, id, isLoading]);
-
-    useEffect(() => {
         const fetchItem = async () => {
             try {
                 const response = await axios.get(
@@ -70,13 +68,7 @@ const ItemEdit: React.FC = () => {
                 const serverData: ItemData = response.data;
                 const savedDraft = localStorage.getItem(`draft_edit_${id}`);
 
-                if (savedDraft) {
-                    setFormData(JSON.parse(savedDraft));
-                    setIsLoading(false);
-                    return;
-                }
-
-                setFormData({
+                const baseData: FormValues = {
                     title: serverData.title || '',
                     price: serverData.price ? String(serverData.price) : '',
                     category: serverData.category || 'electronics',
@@ -88,15 +80,52 @@ const ItemEdit: React.FC = () => {
                               ),
                           )
                         : {},
-                });
-            } catch (error) {
-                console.error(error);
+                };
+
+                setServerSnapshot(baseData);
+
+                if (savedDraft) {
+                    const isRestore = window.confirm(
+                        'У вас есть несохранённые изменения для этого объявления. Восстановить их?',
+                    );
+
+                    if (isRestore) {
+                        setFormData(JSON.parse(savedDraft));
+                        setIsLoading(false);
+                        return;
+                    } else {
+                        localStorage.removeItem(`draft_edit_${id}`);
+                    }
+                }
+                setFormData(baseData);
+            } catch (err) {
+                console.error(err);
             } finally {
                 setIsLoading(false);
             }
         };
-        if (id) fetchItem();
+
+        fetchItem();
     }, [id]);
+
+    useEffect(() => {
+        if (isLoading || !serverSnapshot) return;
+
+        const isChanged =
+            JSON.stringify(formData) !== JSON.stringify(serverSnapshot);
+
+        if (isChanged) {
+            const timer = setTimeout(() => {
+                localStorage.setItem(
+                    `draft_edit_${id}`,
+                    JSON.stringify(formData),
+                );
+            }, 1000);
+            return () => clearTimeout(timer);
+        } else {
+            localStorage.removeItem(`draft_edit_${id}`);
+        }
+    }, [formData, id, isLoading, serverSnapshot]);
 
     const handleAIRequest = async (type: 'price' | 'description') => {
         const setState = type === 'price' ? setPriceAI : setDescAI;
@@ -141,7 +170,11 @@ const ItemEdit: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!isFormValid) return;
+        if (!isFormValid) {
+            const firstError = document.querySelector('.input-control--error');
+            firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
 
         setIsSaving(true);
         setToast(null);
@@ -165,7 +198,7 @@ const ItemEdit: React.FC = () => {
         } catch {
             setToast({
                 type: 'error',
-                text: 'При попытке сохранить изменения произошла ошибка. Попробуйте ещё раз или зайдите позже.',
+                text: 'При попытке сохранить изменения произошла ошибка.',
             });
         } finally {
             setIsSaving(false);
@@ -392,16 +425,26 @@ const ItemEdit: React.FC = () => {
                         <button
                             type="submit"
                             className={`btn btn_blue ${!isFormValid ? 'btn__disabled' : ''}`}
-                            disabled={!isFormValid}
+                            disabled={!isFormValid || isSaving}
                         >
                             {isSaving ? 'Сохранение...' : 'Сохранить'}
                         </button>
                         <button
                             type="button"
                             className="btn btn_gray"
-                            onClick={() =>
-                                navigate(`/ads/${id}`, { replace: true })
-                            }
+                            onClick={() => {
+                                const isDirty =
+                                    JSON.stringify(formData) !==
+                                    JSON.stringify(serverSnapshot);
+                                if (
+                                    isDirty &&
+                                    !window.confirm(
+                                        'У вас есть несохраненные изменения. Выйти?',
+                                    )
+                                )
+                                    return;
+                                navigate(`/ads/${id}`, { replace: true });
+                            }}
                         >
                             Отменить
                         </button>

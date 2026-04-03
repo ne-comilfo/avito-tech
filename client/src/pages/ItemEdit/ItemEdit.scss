@@ -192,7 +192,7 @@ $c-red: #ec221f;
         color: #fff;
 
         &:hover:not(:disabled) {
-            background-color: darken($c-blue, 10%);
+            background-color: #1890ffcc;
         }
     }
 
