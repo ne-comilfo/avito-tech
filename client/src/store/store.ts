@@ -7,6 +7,5 @@ export const store = configureStore({
     },
 });
 
-// Экспортируем типы для типизации хуков react-redux
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

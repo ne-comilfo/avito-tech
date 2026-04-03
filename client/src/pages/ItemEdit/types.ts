@@ -24,3 +24,10 @@ export interface FormValues {
     description: string;
     params: Record<string, string>;
 }
+
+export type AIStatus = 'idle' | 'loading' | 'success' | 'error';
+
+export interface AIState {
+    status: AIStatus;
+    result: string | null;
+}

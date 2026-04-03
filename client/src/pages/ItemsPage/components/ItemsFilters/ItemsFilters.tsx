@@ -34,7 +34,9 @@ export default function ItemsFilters({
                     >
                         <div className="filters__subtitle">Категория</div>
                         <div className="filters__expand">
-                            <ChevronUp size={18} />
+                            <button className="filters__expand-btn">
+                                <ChevronUp size={18} />
+                            </button>
                         </div>
                     </div>
 

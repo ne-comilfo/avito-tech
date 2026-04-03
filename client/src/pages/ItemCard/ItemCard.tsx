@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import axios from 'axios';
-import { SquarePen, AlertCircle } from 'lucide-react';
+import { SquarePen, AlertCircle, ArrowLeft } from 'lucide-react';
 import placeHolderImg from '../../assets/images/card/placeholder.png';
 
 const categoryFields: Record<string, Record<string, string>> = {
@@ -51,7 +51,7 @@ function ItemCard() {
 
     const handleEdit = () => {
         navigate(`/ads/${id}/edit`, { replace: true });
-    }
+    };
 
     useEffect(() => {
         const fetchItem = async () => {
@@ -59,7 +59,7 @@ function ItemCard() {
                 const response = await axios.get(
                     `http://localhost:8080/items/${id}`,
                 );
-        
+
                 setItem(response.data);
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
@@ -116,10 +116,31 @@ function ItemCard() {
                 </header>
 
                 <div className="item-view__controls">
-                    <button className="button button_theme_blue" onClick={() => handleEdit()}>
-                        Редактировать
-                        <SquarePen size={18} className="button__icon" />
-                    </button>
+                    <div className="item-view__controls-btns">
+                        <button
+                            className="button button_theme_blue"
+                            onClick={() => handleEdit()}
+                        >
+                            Редактировать
+                            <SquarePen size={18} className="button__icon" />
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn_outline btn_small mb-4"
+                            onClick={() => navigate(-1)}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                width: '100px',
+                                padding: '5px',
+                            }}
+                        >
+                            <ArrowLeft size={16} />
+                            Назад
+                        </button>
+                    </div>
+
                     <div className="item-view__meta">
                         <span className="item-view__date">
                             Опубликовано: {formatDate(item.createdAt)}

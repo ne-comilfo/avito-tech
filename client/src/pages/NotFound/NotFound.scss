@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    button {
+        cursor: pointer;
+        border-radius: 8px;
+        background: #fafafa;
+        border: 0.5px black solid;
+    }
+}

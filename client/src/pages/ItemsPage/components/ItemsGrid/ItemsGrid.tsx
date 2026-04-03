@@ -1,9 +1,8 @@
 import { Loader } from '@mantine/core';
 import ItemsPageCard from '../ItemsCardPage/ItemsPageCard';
-import imgPath from '../../../assets/images/main/placeholder.png'; // Проверь путь
+import imgPath from '../../../../assets/images/main/placeholder.png'; 
 import './ItemsGrid.scss';
 
-// Замени `any` на свой тип товара, если он у тебя вынесен в types.ts
 interface ItemsGridProps {
     items: any[]; 
     isLoading: boolean;

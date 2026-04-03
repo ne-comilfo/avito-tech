@@ -57,6 +57,12 @@ $color-icon-placeholder: #a0a0a0;
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 32px;
+
+        &-btns {
+            display: flex;
+            gap: 15px;
+            flex-direction: column;
+        }
     }
 
     &__meta {
@@ -94,6 +100,7 @@ $color-icon-placeholder: #a0a0a0;
     border: none;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    height: 38px;
 
     &_theme_blue {
         background-color: $color-primary;

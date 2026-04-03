@@ -4,10 +4,10 @@ import type { AppDispatch, RootState } from '../../store/store';
 import { fetchItems } from '../../store/itemsSlice';
 import { LayoutGrid, List } from 'lucide-react';
 
-import ItemsSearch from '../../components/ItemsPage/ItemsSearch/ItemsSearch';
-import ItemsFilters from '../../components/ItemsPage/ItemsFilters/ItemsFilters';
-import ItemsGrid from '../../components/ItemsPage/ItemsGrid/ItemsGrid';
-import ItemsPagination from '../../components/ItemsPage/ItemsPagination/ItemsPagination';
+import ItemsSearch from './components/ItemsSearch/ItemsSearch';
+import ItemsFilters from './components/ItemsFilters/ItemsFilters';
+import ItemsGrid from './components/ItemsGrid/ItemsGrid';
+import ItemsPagination from './components/ItemsPagination/ItemsPagination';
 
 import './ItemsPage.scss';
 

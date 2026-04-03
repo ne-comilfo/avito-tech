@@ -9,7 +9,6 @@ interface ItemsPaginationProps {
 }
 
 export default function ItemsPagination({ page, totalPages, isLoading, setPage }: ItemsPaginationProps) {
-    // Если страниц нет или она всего 1, можно вообще не рендерить пагинацию
     if (totalPages <= 1) return null;
 
     return (

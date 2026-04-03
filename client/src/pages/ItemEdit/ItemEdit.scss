@@ -3,8 +3,6 @@ $c-text-main: black;
 $c-text-muted: #5a5a5a;
 $c-blue: #1890ff;
 $c-red: #ec221f;
-$c-ai-bg: #f9f1e6;
-$c-ai-text: #ffa940;
 
 .wrapper-edit {
     width: 100%;
@@ -109,9 +107,7 @@ $c-ai-text: #ffa940;
     color: $c-text-main;
     background-color: #fff;
     outline: none;
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 
     &:focus {
         border-color: $c-blue;
@@ -125,32 +121,6 @@ $c-ai-text: #ffa940;
     &--error {
         border: 1px #ec221f solid;
     }
-}
-
-.select-control {
-    appearance: none;
-    cursor: pointer;
-
-    &::-ms-expand {
-        display: none;
-    }
-}
-
-option {
-    font-weight: normal;
-    display: block;
-    white-space: nowrap;
-    min-height: 1.2em;
-    padding: 0 2px 1px;
-}
-
-.input-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #bfbfbf;
-    pointer-events: none;
 }
 
 .clear-btn {
@@ -193,79 +163,7 @@ option {
 
 .ai-wrapper {
     position: relative;
-}
-
-.ai-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: $c-ai-bg;
-    color: $c-ai-text;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    height: 32px;
-
-    &:hover {
-        opacity: 0.8;
-    }
-}
-
-.ai-popover {
-    position: absolute;
-    bottom: calc(100% + 14px);
-    left: 0;
-    width: 340px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid $c-border;
-    z-index: 10;
-
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: -6px;
-        left: 24px;
-        width: 10px;
-        height: 10px;
-        background: #fff;
-        border-right: 1px solid $c-border;
-        border-bottom: 1px solid $c-border;
-        transform: rotate(45deg);
-    }
-
-    &__title {
-        display: block;
-        font-weight: 600;
-        font-size: 14px;
-        margin-bottom: 8px;
-    }
-
-    &__text {
-        font-size: 13px;
-        line-height: 1.5;
-        margin-bottom: 16px;
-
-        ul {
-            margin: 4px 0 0 0;
-            padding-left: 16px;
-
-            li {
-                margin-bottom: 2px;
-            }
-        }
-    }
-
-    &__actions {
-        display: flex;
-        gap: 8px;
-    }
+    display: inline-block;
 }
 
 .btn {
@@ -326,106 +224,4 @@ option {
     display: flex;
     gap: 12px;
     margin-top: 32px;
-}
-
-.toast-message {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 1000;
-    min-width: 300px;
-    max-width: 450px;
-    padding: 16px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    animation: toast-fade-in 0.3s ease-out;
-
-    &--success {
-        background-color: #f6ffed;
-        border: 1px solid #b7eb8f;
-
-        .toast-message__icon {
-            color: #52c41a;
-        }
-    }
-
-    &--error {
-        background-color: #fff2f0;
-        border: 1px solid #ffccc7;
-
-        .toast-message__icon {
-            color: #ff4d4f;
-        }
-    }
-
-    &__content {
-        display: flex;
-        gap: 12px;
-    }
-
-    &__text-container {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    &__title {
-        font-weight: 600;
-        font-size: 15px;
-    }
-
-    &__text {
-        font-size: 14px;
-        color: #595959;
-        margin: 0;
-    }
-
-    &__close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: #bfbfbf;
-        padding: 0;
-        transition: color 0.2s;
-        &:hover {
-            color: #8c8c8c;
-        }
-    }
-}
-
-@keyframes toast-fade-in {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.icon-success-bg {
-    background-color: #52c41a;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.toast-message__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    svg {
-        &[data-lucide="circle-x"] {
-            color: #ff4d4f; 
-        }
-    }
 }

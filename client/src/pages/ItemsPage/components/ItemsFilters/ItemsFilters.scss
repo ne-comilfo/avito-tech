@@ -49,6 +49,13 @@
         color: #999;
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         transform: rotate(180deg); 
+
+        &-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            height: 20px;
+        }
     }
 
     &__collapse-wrapper {
