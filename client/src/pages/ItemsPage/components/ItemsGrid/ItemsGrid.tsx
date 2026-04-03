@@ -1,10 +1,12 @@
 import { Loader } from '@mantine/core';
 import ItemsPageCard from '../ItemsCardPage/ItemsPageCard';
-import imgPath from '../../../../assets/images/main/placeholder.png'; 
+import imgPath from '../../../../assets/images/main/placeholder.png';
 import './ItemsGrid.scss';
 
+import type { AdItem } from '../../../../types';
+
 interface ItemsGridProps {
-    items: any[]; 
+    items: AdItem[];
     isLoading: boolean;
     error: string | null;
 }

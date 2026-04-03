@@ -28,11 +28,10 @@ export const fetchItems = createAsyncThunk<
             signal,
         });
         return response.data;
-    } catch (error: any) {
-        if (error.name === 'CanceledError') {
-            return rejectWithValue('Запрос был отменен');
-        }
-        return rejectWithValue(error.message || 'Ошибка сервера');
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : 'Unknown error';
+        return rejectWithValue(errorMessage);
     }
 });
 

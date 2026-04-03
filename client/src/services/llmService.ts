@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import type { FormValues } from '../pages/ItemEdit/types';
+
 const OLLAMA_URL = 'http://localhost:11434/api/generate';
 
 export const askAI = async (prompt: string) => {
@@ -20,7 +22,7 @@ export const askAI = async (prompt: string) => {
     }
 };
 
-export const getPricePrompt = (item: any) => {
+export const getPricePrompt = (item: FormValues) => {
     const isRealty = item.category === 'real_estate';
 
     const realtyDetails = isRealty

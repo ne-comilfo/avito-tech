@@ -3,7 +3,7 @@ import './ItemsPageCard.scss';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
-    id: number,
+    id: number | string;
     imgPath: string;
     category: string;
     title: string;
@@ -15,7 +15,7 @@ function ItemsPageCard({ id, imgPath, category, title, price, badge }: Props) {
     const navigate = useNavigate();
     const handleClick = () => {
         navigate(`ads/${id}`);
-    }
+    };
     return (
         <div className="card" onClick={() => handleClick()}>
             <div className="card__image-wrapper">
@@ -24,7 +24,6 @@ function ItemsPageCard({ id, imgPath, category, title, price, badge }: Props) {
             </div>
 
             <div className="card__body">
-
                 <div className="card__title">{title}</div>
                 <div className="card__price">{price} ₽</div>
 

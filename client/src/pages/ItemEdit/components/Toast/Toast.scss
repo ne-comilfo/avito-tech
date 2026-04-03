@@ -92,10 +92,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     svg {
-        &[data-lucide="circle-x"] {
-            color: #ff4d4f; 
+        &[data-lucide='circle-x'] {
+            color: #ff4d4f;
         }
     }
 }

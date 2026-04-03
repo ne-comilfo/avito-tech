@@ -39,7 +39,7 @@ interface ItemData {
     createdAt: string;
     updatedAt: string;
     needsRevision: boolean;
-    params?: Record<string, any>;
+    params?: Record<string, string | number>;
     img: string[];
 }
 

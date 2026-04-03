@@ -107,7 +107,9 @@ $c-red: #ec221f;
     color: $c-text-main;
     background-color: #fff;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
 
     &:focus {
         border-color: $c-blue;

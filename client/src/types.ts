@@ -1,7 +1,7 @@
 export type Category = 'auto' | 'real_estate' | 'electronics';
 
 export interface AdItem {
-    id: string;
+    id: string | number;
     category: Category;
     title: string;
     price: number;

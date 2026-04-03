@@ -49,12 +49,12 @@ $c-red: #ec221f;
     &--error {
         border-color: $c-red;
         background-color: #fff2f0;
-        &::after { 
-            background-color: #fff2f0; 
-            border-color: $c-red; 
+        &::after {
+            background-color: #fff2f0;
+            border-color: $c-red;
         }
-        .ai-popover__title { 
-            color: #a8071a; 
+        .ai-popover__title {
+            color: #a8071a;
         }
     }
 }

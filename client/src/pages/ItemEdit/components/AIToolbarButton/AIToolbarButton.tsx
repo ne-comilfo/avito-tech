@@ -9,7 +9,11 @@ interface AIToolbarButtonProps {
     idleText: string;
 }
 
-const AIToolbarButton: React.FC<AIToolbarButtonProps> = ({ aiState, onClick, idleText }) => {
+const AIToolbarButton: React.FC<AIToolbarButtonProps> = ({
+    aiState,
+    onClick,
+    idleText,
+}) => {
     return (
         <button
             type="button"
@@ -28,8 +32,8 @@ const AIToolbarButton: React.FC<AIToolbarButtonProps> = ({ aiState, onClick, idl
                 {aiState.status === 'loading'
                     ? 'Выполняется запрос'
                     : aiState.status === 'success' || aiState.status === 'error'
-                    ? 'Повторить запрос'
-                    : idleText}
+                      ? 'Повторить запрос'
+                      : idleText}
             </span>
         </button>
     );

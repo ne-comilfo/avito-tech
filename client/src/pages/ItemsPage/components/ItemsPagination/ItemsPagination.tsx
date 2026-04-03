@@ -8,7 +8,12 @@ interface ItemsPaginationProps {
     setPage: (page: number | ((p: number) => number)) => void;
 }
 
-export default function ItemsPagination({ page, totalPages, isLoading, setPage }: ItemsPaginationProps) {
+export default function ItemsPagination({
+    page,
+    totalPages,
+    isLoading,
+    setPage,
+}: ItemsPaginationProps) {
     if (totalPages <= 1) return null;
 
     return (
@@ -21,16 +26,18 @@ export default function ItemsPagination({ page, totalPages, isLoading, setPage }
                 <ChevronLeft size={18} />
             </button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <button
-                    key={pageNum}
-                    className={`ads__page-btn ${page === pageNum ? 'ads__page-btn--active' : ''}`}
-                    onClick={() => setPage(pageNum)}
-                    disabled={isLoading}
-                >
-                    {pageNum}
-                </button>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                    <button
+                        key={pageNum}
+                        className={`ads__page-btn ${page === pageNum ? 'ads__page-btn--active' : ''}`}
+                        onClick={() => setPage(pageNum)}
+                        disabled={isLoading}
+                    >
+                        {pageNum}
+                    </button>
+                ),
+            )}
 
             <button
                 className={`ads__page-btn ${page === totalPages ? 'ads__page-btn--blocked' : ''}`}
