@@ -8,6 +8,13 @@ interface ItemsState {
     total: number;
     isLoading: boolean;
     error: string | null;
+    filters: {
+        searchQuery: string;
+        page: number;
+        selectedCategories: string[];
+        needsRevision: boolean;
+        sort: string;
+    };
 }
 
 const initialState: ItemsState = {
@@ -15,6 +22,13 @@ const initialState: ItemsState = {
     total: 0,
     isLoading: false,
     error: null,
+    filters: {
+        searchQuery: '',
+        page: 1,
+        selectedCategories: [],
+        needsRevision: false,
+        sort: 'createdAt-desc',
+    },
 };
 
 export const fetchItems = createAsyncThunk<
@@ -38,7 +52,40 @@ export const fetchItems = createAsyncThunk<
 const itemsSlice = createSlice({
     name: 'items',
     initialState,
-    reducers: {},
+    reducers: {
+        setSearchQuery: (state, action: PayloadAction<string>) => {
+            state.filters.searchQuery = action.payload;
+            state.filters.page = 1;
+        },
+        setPage: (state, action: PayloadAction<number>) => {
+            state.filters.page = action.payload;
+        },
+        toggleCategory: (state, action: PayloadAction<string>) => {
+            const category = action.payload;
+            if (state.filters.selectedCategories.includes(category)) {
+                state.filters.selectedCategories =
+                    state.filters.selectedCategories.filter(
+                        (c) => c !== category,
+                    );
+            } else {
+                state.filters.selectedCategories.push(category);
+            }
+            state.filters.page = 1;
+        },
+        setNeedsRevision: (state, action: PayloadAction<boolean>) => {
+            state.filters.needsRevision = action.payload;
+            state.filters.page = 1;
+        },
+        setSort: (state, action: PayloadAction<string>) => {
+            state.filters.sort = action.payload;
+            state.filters.page = 1;
+        },
+        resetFilters: (state) => {
+            state.filters.selectedCategories = [];
+            state.filters.needsRevision = false;
+            state.filters.page = 1;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchItems.pending, (state) => {
@@ -62,4 +109,12 @@ const itemsSlice = createSlice({
     },
 });
 
+export const {
+    setSearchQuery,
+    setPage,
+    toggleCategory,
+    setNeedsRevision,
+    setSort,
+    resetFilters,
+} = itemsSlice.actions;
 export default itemsSlice.reducer;

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../store/store';
-import { fetchItems } from '../../store/itemsSlice';
+import { fetchItems, setSort } from '../../store/itemsSlice';
 import { LayoutGrid, List } from 'lucide-react';
 
 import ItemsSearch from './components/ItemsSearch/ItemsSearch';
@@ -13,39 +13,12 @@ import './ItemsPage.scss';
 
 function ItemsPage() {
     const dispatch = useDispatch<AppDispatch>();
-    const [searchQuery, setSearchQuery] = useState('');
-    const [page, setPage] = useState(1);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [needsRevision, setNeedsRevision] = useState<boolean>(false);
-    const [sort, setSort] = useState('createdAt-desc');
 
-    const { items, isLoading, error, total } = useSelector(
-        (state: RootState) => state.ads,
-    );
+    const { total } = useSelector((state: RootState) => state.ads);
+    const { searchQuery, page, selectedCategories, needsRevision, sort } =
+        useSelector((state: RootState) => state.ads.filters);
 
     const limit = 10;
-    const totalPages = Math.ceil(total / limit);
-
-    const handleBadgeChange = (value: boolean) => {
-        setNeedsRevision(value);
-        setPage(1);
-    };
-
-    const handleCategoryChange = (category: string) => {
-        setSelectedCategories((prev) =>
-            prev.includes(category)
-                ? prev.filter((item) => item !== category)
-                : [...prev, category],
-        );
-        setPage(1);
-    };
-
-    const handleResetFilters = () => {
-        setSearchQuery('');
-        setSelectedCategories([]);
-        setNeedsRevision(false);
-        setPage(1);
-    };
 
     useEffect(() => {
         const skip = (page - 1) * limit;
@@ -77,10 +50,7 @@ function ItemsPage() {
                 </div>
 
                 <div className="ads__controls">
-                    <ItemsSearch
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                    />
+                    <ItemsSearch />
 
                     <div className="ads__view">
                         <LayoutGrid size={20} color="#1890FF" />
@@ -91,10 +61,7 @@ function ItemsPage() {
                     <select
                         className="ads__sort"
                         value={sort}
-                        onChange={(e) => {
-                            setSort(e.target.value);
-                            setPage(1);
-                        }}
+                        onChange={(e) => dispatch(setSort(e.target.value))}
                     >
                         <option value="createdAt-desc">
                             По новизне (сначала новые)
@@ -113,28 +80,12 @@ function ItemsPage() {
 
                 <div className="ads__content">
                     <aside className="ads__sidebar">
-                        <ItemsFilters
-                            selectedCategories={selectedCategories}
-                            onCategoryChange={handleCategoryChange}
-                            needsRevision={needsRevision}
-                            onRevisionChange={handleBadgeChange}
-                            onReset={handleResetFilters}
-                        />
+                        <ItemsFilters />
                     </aside>
 
                     <div className="ads__right">
-                        <ItemsGrid
-                            items={items}
-                            isLoading={isLoading}
-                            error={error}
-                        />
-
-                        <ItemsPagination
-                            page={page}
-                            totalPages={totalPages}
-                            isLoading={isLoading}
-                            setPage={setPage}
-                        />
+                        <ItemsGrid />
+                        <ItemsPagination />
                     </div>
                 </div>
             </div>

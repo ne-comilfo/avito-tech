@@ -1,15 +1,9 @@
 import { Loader } from '@mantine/core';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../../store/store';
 import ItemsPageCard from '../ItemsCardPage/ItemsPageCard';
 import imgPath from '../../../../assets/images/main/placeholder.png';
 import './ItemsGrid.scss';
-
-import type { AdItem } from '../../../../types';
-
-interface ItemsGridProps {
-    items: AdItem[];
-    isLoading: boolean;
-    error: string | null;
-}
 
 const itemCategories: Record<string, string> = {
     auto: 'Авто',
@@ -17,7 +11,11 @@ const itemCategories: Record<string, string> = {
     electronics: 'Электроника',
 };
 
-export default function ItemsGrid({ items, isLoading, error }: ItemsGridProps) {
+export default function ItemsGrid() {
+    const { items, isLoading, error } = useSelector(
+        (state: RootState) => state.ads,
+    );
+
     if (isLoading) {
         return (
             <div className="ads__grid">

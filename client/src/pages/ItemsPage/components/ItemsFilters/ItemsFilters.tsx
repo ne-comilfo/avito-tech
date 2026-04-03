@@ -1,23 +1,21 @@
 import { useState } from 'react';
 import { ChevronUp } from 'lucide-react';
 import { Switch } from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    toggleCategory,
+    setNeedsRevision,
+    resetFilters,
+} from '../../../../store/itemsSlice';
+import type { AppDispatch, RootState } from '../../../../store/store';
 import './ItemsFilters.scss';
 
-interface ItemsFiltersProps {
-    selectedCategories: string[];
-    onCategoryChange: (category: string) => void;
-    needsRevision: boolean;
-    onRevisionChange: (value: boolean) => void;
-    onReset: () => void;
-}
+export default function ItemsFilters() {
+    const dispatch = useDispatch<AppDispatch>();
+    const { selectedCategories, needsRevision } = useSelector(
+        (state: RootState) => state.ads.filters,
+    );
 
-export default function ItemsFilters({
-    selectedCategories,
-    onCategoryChange,
-    needsRevision,
-    onRevisionChange,
-    onReset,
-}: ItemsFiltersProps) {
     const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 
     return (
@@ -48,7 +46,9 @@ export default function ItemsFilters({
                                     checked={selectedCategories.includes(
                                         'auto',
                                     )}
-                                    onChange={() => onCategoryChange('auto')}
+                                    onChange={() =>
+                                        dispatch(toggleCategory('auto'))
+                                    }
                                 />
                                 Авто
                             </label>
@@ -59,7 +59,7 @@ export default function ItemsFilters({
                                         'electronics',
                                     )}
                                     onChange={() =>
-                                        onCategoryChange('electronics')
+                                        dispatch(toggleCategory('electronics'))
                                     }
                                 />
                                 Электроника
@@ -71,7 +71,7 @@ export default function ItemsFilters({
                                         'real_estate',
                                     )}
                                     onChange={() =>
-                                        onCategoryChange('real_estate')
+                                        dispatch(toggleCategory('real_estate'))
                                     }
                                 />
                                 Недвижимость
@@ -83,7 +83,11 @@ export default function ItemsFilters({
                         <Switch
                             checked={needsRevision}
                             onChange={(event) =>
-                                onRevisionChange(event.currentTarget.checked)
+                                dispatch(
+                                    setNeedsRevision(
+                                        event.currentTarget.checked,
+                                    ),
+                                )
                             }
                             label="Только требующие доработок"
                             labelPosition="left"
@@ -92,7 +96,10 @@ export default function ItemsFilters({
                 </div>
             </div>
             <div className="filters__reset">
-                <button className="filters__reset-btn" onClick={onReset}>
+                <button
+                    className="filters__reset-btn"
+                    onClick={() => dispatch(resetFilters())}
+                >
                     Сбросить фильтры
                 </button>
             </div>

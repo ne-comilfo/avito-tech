@@ -1,26 +1,26 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPage } from '../../../../store/itemsSlice';
+import type { AppDispatch, RootState } from '../../../../store/store';
 import './ItemsPagination.scss';
 
-interface ItemsPaginationProps {
-    page: number;
-    totalPages: number;
-    isLoading: boolean;
-    setPage: (page: number | ((p: number) => number)) => void;
-}
+export default function ItemsPagination() {
+    const dispatch = useDispatch<AppDispatch>();
+    const { total, isLoading, filters } = useSelector(
+        (state: RootState) => state.ads,
+    );
+    const { page } = filters;
 
-export default function ItemsPagination({
-    page,
-    totalPages,
-    isLoading,
-    setPage,
-}: ItemsPaginationProps) {
+    const limit = 10;
+    const totalPages = Math.ceil(total / limit);
+
     if (totalPages <= 1) return null;
 
     return (
         <div className="ads__pagination">
             <button
                 className={`ads__page-btn ${page === 1 ? 'ads__page-btn--blocked' : ''}`}
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                onClick={() => dispatch(setPage(Math.max(1, page - 1)))}
                 disabled={page === 1 || isLoading}
             >
                 <ChevronLeft size={18} />
@@ -31,7 +31,7 @@ export default function ItemsPagination({
                     <button
                         key={pageNum}
                         className={`ads__page-btn ${page === pageNum ? 'ads__page-btn--active' : ''}`}
-                        onClick={() => setPage(pageNum)}
+                        onClick={() => dispatch(setPage(pageNum))}
                         disabled={isLoading}
                     >
                         {pageNum}
@@ -41,7 +41,9 @@ export default function ItemsPagination({
 
             <button
                 className={`ads__page-btn ${page === totalPages ? 'ads__page-btn--blocked' : ''}`}
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                    dispatch(setPage(Math.min(totalPages, page + 1)))
+                }
                 disabled={page === totalPages || isLoading}
             >
                 <ChevronRight size={18} />
