@@ -284,14 +284,20 @@ const ItemEdit: React.FC = () => {
                             <div className="input-wrapper input-wrapper_half">
                                 <input
                                     type="number"
+                                    min="0"
                                     className={`input-control ${!formData.price ? 'input-control--error' : ''}`}
+                                    onKeyDown={(e) => {
+                                        if (['-', 'e', '+'].includes(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                     value={formData.price}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
                                         handleMainChange(
                                             'price',
                                             e.target.value,
-                                        )
-                                    }
+                                        );
+                                    }}
                                 />
                                 {formData.price && (
                                     <button
