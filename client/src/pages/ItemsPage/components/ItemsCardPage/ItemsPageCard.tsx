@@ -8,22 +8,40 @@ type Props = {
     category: string;
     title: string;
     price: number | string;
+    viewMode: 'list' | 'grid';
     badge?: boolean;
 };
 
-function ItemsPageCard({ id, imgPath, category, title, price, badge }: Props) {
+function ItemsPageCard({
+    id,
+    imgPath,
+    category,
+    title,
+    price,
+    badge,
+    viewMode = 'list',
+}: Props) {
     const navigate = useNavigate();
     const handleClick = () => {
         navigate(`ads/${id}`);
     };
     return (
-        <div className="card" onClick={() => handleClick()}>
+        <div className={`card card--${viewMode}`} onClick={() => handleClick()}>
             <div className="card__image-wrapper">
                 <img src={imgPath} className="card__image" />
-                <span className="card__category">{category}</span>
+                {viewMode == 'grid' ? (
+                    <span className="card__category">{category}</span>
+                ) : (
+                    ''
+                )}
             </div>
 
             <div className="card__body">
+                {viewMode == 'list' ? (
+                    <div className="card__category">{category}</div>
+                ) : (
+                    ''
+                )}
                 <div className="card__title">{title}</div>
                 <div className="card__price">{price} ₽</div>
 

@@ -8,6 +8,7 @@ interface ItemsState {
     total: number;
     isLoading: boolean;
     error: string | null;
+    viewMode: 'grid' | 'list';
     filters: {
         searchQuery: string;
         page: number;
@@ -22,6 +23,7 @@ const initialState: ItemsState = {
     total: 0,
     isLoading: false,
     error: null,
+    viewMode: 'grid',
     filters: {
         searchQuery: '',
         page: 1,
@@ -59,6 +61,9 @@ const itemsSlice = createSlice({
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.filters.page = action.payload;
+        },
+        setViewMode: (state, action: PayloadAction<'grid' | 'list'>) => {
+            state.viewMode = action.payload;
         },
         toggleCategory: (state, action: PayloadAction<string>) => {
             const category = action.payload;
@@ -110,6 +115,7 @@ const itemsSlice = createSlice({
 });
 
 export const {
+    setViewMode,
     setSearchQuery,
     setPage,
     toggleCategory,

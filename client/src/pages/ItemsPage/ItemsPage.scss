@@ -39,6 +39,19 @@
         background: #f6f6f8;
         padding: 0 5px;
         border-radius: 8px;
+        &-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #bfbfbf;
+            display: flex;
+            padding: 2px;
+            transition: color 0.2s;
+
+            &--active {
+                color: #1890ff;
+            }
+        }
     }
 
     &__sort {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../store/store';
-import { fetchItems, setSort } from '../../store/itemsSlice';
+import { fetchItems, setSort, setViewMode } from '../../store/itemsSlice';
 import { LayoutGrid, List } from 'lucide-react';
 
 import ItemsSearch from './components/ItemsSearch/ItemsSearch';
@@ -14,7 +14,7 @@ import './ItemsPage.scss';
 function ItemsPage() {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { total } = useSelector((state: RootState) => state.ads);
+    const { total, viewMode } = useSelector((state: RootState) => state.ads);
     const { searchQuery, page, selectedCategories, needsRevision, sort } =
         useSelector((state: RootState) => state.ads.filters);
 
@@ -53,9 +53,19 @@ function ItemsPage() {
                     <ItemsSearch />
 
                     <div className="ads__view">
-                        <LayoutGrid size={20} color="#1890FF" />
+                        <button
+                            className={`ads__view-btn ${viewMode === 'grid' ? 'ads__view-btn--active' : ''}`}
+                            onClick={() => dispatch(setViewMode('grid'))}
+                        >
+                            <LayoutGrid size={20} />
+                        </button>
                         <div className="ads__divider"></div>
-                        <List size={20} />
+                        <button
+                            className={`ads__view-btn ${viewMode === 'list' ? 'ads__view-btn--active' : ''}`}
+                            onClick={() => dispatch(setViewMode('list'))}
+                        >
+                            <List size={20} />
+                        </button>
                     </div>
 
                     <select
